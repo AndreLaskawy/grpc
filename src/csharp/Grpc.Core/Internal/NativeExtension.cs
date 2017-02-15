@@ -147,19 +147,7 @@ namespace Grpc.Core.Internal
 
         private static string GetPlatformString()
         {
-            if (PlatformApis.IsWindows)
-            {
-                return "win";
-            }
-            if (PlatformApis.IsLinux)
-            {
-                return "linux";
-            }
-            if (PlatformApis.IsMacOSX)
-            {
-                return "osx";
-            }
-            throw new InvalidOperationException("Unsupported platform.");
+            return "android";
         }
 
         // Currently, only Intel platform is supported.
@@ -178,6 +166,8 @@ namespace Grpc.Core.Internal
         // platform specific file name of the extension library
         private static string GetNativeLibraryFilename()
         {
+            return "libgrpc_csharp_ext_mobile.so";
+            /*
             string architecture = GetArchitectureString();
             if (PlatformApis.IsWindows)
             {
@@ -192,6 +182,8 @@ namespace Grpc.Core.Internal
                 return string.Format("libgrpc_csharp_ext.{0}.dylib", architecture);
             }
             throw new InvalidOperationException("Unsupported platform.");
+        
+    */
         }
     }
 }

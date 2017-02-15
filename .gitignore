@@ -96,3 +96,6 @@ Pods/
 
 # Artifacts directory
 artifacts/
+
+bin
+obj

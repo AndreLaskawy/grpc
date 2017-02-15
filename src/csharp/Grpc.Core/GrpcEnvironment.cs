@@ -30,7 +30,7 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #endregion
-
+#define NETSTANDARD1_5
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -353,7 +353,14 @@ namespace Grpc.Core
                     if (!hooksRegistered)
                     {
 #if NETSTANDARD1_5
-                        System.Runtime.Loader.AssemblyLoadContext.Default.Unloading += (assemblyLoadContext) => { HandleShutdown(); };
+                        try
+                        {
+                            System.Runtime.Loader.AssemblyLoadContext.Default.Unloading += (assemblyLoadContext) => { HandleShutdown(); };
+                        }
+                        catch (System.NotImplementedException)
+                        {
+                            // whatever.
+                        }
 #else
                         AppDomain.CurrentDomain.ProcessExit += (sender, eventArgs) => { HandleShutdown(); };
                         AppDomain.CurrentDomain.DomainUnload += (sender, eventArgs) => { HandleShutdown(); };

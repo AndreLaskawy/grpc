@@ -67,7 +67,7 @@ unsigned gpr_cpu_num_cores(void) {
 }
 
 unsigned gpr_cpu_current_cpu(void) {
-  int cpu = sched_getcpu();
+	int cpu = -1; //sched_getcpu();
   if (cpu < 0) {
     gpr_log(GPR_ERROR, "Error determining current CPU: %s\n", strerror(errno));
     return 0;

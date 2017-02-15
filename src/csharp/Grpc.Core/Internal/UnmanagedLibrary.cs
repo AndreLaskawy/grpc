@@ -60,14 +60,16 @@ namespace Grpc.Core.Internal
         readonly string libraryPath;
         readonly IntPtr handle;
 
+        [DllImport("libgrpc_csharp_ext_mobile.so")]
+        internal static extern IntPtr grpcsharp_version_string();
+
         public UnmanagedLibrary(string[] libraryPathAlternatives)
         {
             this.libraryPath = FirstValidLibraryPath(libraryPathAlternatives);
 
             Logger.Debug("Attempting to load native library \"{0}\"", this.libraryPath);
-
+            IntPtr foo = grpcsharp_version_string();
             this.handle = PlatformSpecificLoadLibrary(this.libraryPath);
-
             if (this.handle == IntPtr.Zero)
             {
                 throw new IOException(string.Format("Error loading native library \"{0}\"", this.libraryPath));
@@ -81,6 +83,8 @@ namespace Grpc.Core.Internal
         /// <returns></returns>
         public IntPtr LoadSymbol(string symbolName)
         {
+            return Linux.dlsym(this.handle, symbolName);
+            /*
             if (PlatformApis.IsWindows)
             {
                 // See http://stackoverflow.com/questions/10473310 for background on this.
@@ -124,6 +128,7 @@ namespace Grpc.Core.Internal
                 return MacOSX.dlsym(this.handle, symbolName);
             }
             throw new InvalidOperationException("Unsupported platform.");
+            */
         }
 
         public T GetNativeMethodDelegate<T>(string methodName)
@@ -142,6 +147,8 @@ namespace Grpc.Core.Internal
         /// </summary>
         private static IntPtr PlatformSpecificLoadLibrary(string libraryPath)
         {
+            return Linux.dlopen(libraryPath, RTLD_GLOBAL + RTLD_LAZY);
+            /*
             if (PlatformApis.IsWindows)
             {
                 return Windows.LoadLibrary(libraryPath);
@@ -163,6 +170,7 @@ namespace Grpc.Core.Internal
                 return MacOSX.dlopen(libraryPath, RTLD_GLOBAL + RTLD_LAZY);
             }
             throw new InvalidOperationException("Unsupported platform.");
+            */
         }
 
         private static string FirstValidLibraryPath(string[] libraryPathAlternatives)

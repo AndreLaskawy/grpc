@@ -1,0 +1,5 @@
+,
+"runtimes/android/native/libgrpc_csharp_ext.x86.so": "../nativelibs/android_x86/libgrpc_csharp_ext.so",
+        "runtimes/android/native/libgrpc_csharp_ext.x64.so": "../nativelibs/android_x64/libgrpc_csharp_ext.so",
+        "runtimes/ios/native/libgrpc_csharp_ext.x86.so": "../nativelibs/ios_x86/libgrpc_csharp_ext.dylib",
+        "runtimes/ios/native/libgrpc_csharp_ext.x64.so": "../nativelibs/ios_x64/libgrpc_csharp_ext.dylib"
